@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  CI:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,3 +28,14 @@ jobs:
           tags: 
             linuxlite/rotten-potatoes:latest
             linuxlite/rotten-potatoes:${{ github.run_number }}
+  CD:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
